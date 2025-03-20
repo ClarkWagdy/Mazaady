@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/font": "^14.2.15",
     "autoprefixer": "^10.4.21",
     "lucide-react": "^0.483.0",
     "motion": "^12.5.0",

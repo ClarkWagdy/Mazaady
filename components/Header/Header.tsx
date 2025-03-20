@@ -3,12 +3,21 @@ import Link from 'next/link';
 import React, { useState } from 'react'
  import { motion } from "motion/react";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+
 import { Links } from './NavLink';
+import { Locale, useTranslations } from 'next-intl';
+import { useChangeLanguage } from '@/i18n/ChangeLan';
+import Lanbutton from '../LanguageChange/Lanbutton';
 // import { useTranslations } from 'next-intl';
-export default function Header() {
+export default   function Header( ) {
+  const { changeLanguage, currentLocale } = useChangeLanguage();
   const [isOpen, setIsOpen] = useState(false);
   // const t = useTranslations();
+
+
+    const t = useTranslations("common");
+  
   return (
     <header className="bg-white shadow-md p-1">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,7 +74,7 @@ export default function Header() {
               <Link
                 key={index}
                 href={link.Path}
-                className="text-gray-700 hover:text-red-500"
+                className={`text-gray-700 hover:text-red-500  ${usePathname().replace(currentLocale,"") === link.Path ? "text-red-500" : ""}`}
               >
                 {link.Title}
               </Link>
@@ -82,6 +91,7 @@ export default function Header() {
                 height={24}
               />
             </button>
+            <span className='border-l-1 border-[#FFEAD2] h-[25px]'></span>
             <button className="p-2 text-gray-600 hover:text-black">
               <Image
                 src="/notification.svg"
@@ -90,6 +100,7 @@ export default function Header() {
                 height={24}
               />
             </button>
+            <span className='border-l-1 border-[#FFEAD2] h-[25px]'></span>
             <button className="rounded-full border p-1">
               <Image
                 src="/avatar.png"
@@ -102,6 +113,8 @@ export default function Header() {
             <button className="hidden md:block  bg-gradient-to-r from-red-500 to-orange-400 text-white px-4 py-2 rounded-lg">
               + Add New Product
             </button>
+
+            <Lanbutton className="hidden md:flex "/>
           </div>
         </div>
 
@@ -115,14 +128,15 @@ export default function Header() {
           className="absolute w-full left-0 mt-2 w-48 bg-white shadow-lg overflow-hidden rounded-md"
         >
           <ul className="flex flex-col p-4 space-y-2">
+            
             {Links.map((link, index) => (
-              <Link key={index} href={link.Path} className="text-gray-700">
-                {link.Title}
+              <Link key={index} href={ link.Path} className={`text-gray-700 `} >
+                {t(link.Title)}
               </Link>
             ))}
-            <button className="p-2 text-gray-600 hover:text-black">
-              <Image src="/globe.svg" alt="search" width={24} height={24} />
-            </button>
+
+
+        <Lanbutton />
 
             {/* <h1>{t("Home")}</h1> */}
           </ul>

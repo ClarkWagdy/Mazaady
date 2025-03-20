@@ -3,7 +3,11 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 import Header from "../../../components/Header/Header";
-
+import { Nunito } from "next/font/google";
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"], // Adjust as needed
+});
 export default async function RootLayout({
   children,
   params,
@@ -26,13 +30,15 @@ export default async function RootLayout({
  } 
 
   return (
-    <html lang={locale}>
-      <Header />
-      <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+         <NextIntlClientProvider locale={locale} messages={messages}>
+      <Header  />
+      <body className={"bg-[#F6F4F5]  "+  nunito.className }>
+     
           {children}
-        </NextIntlClientProvider>
+
       </body>
+      </NextIntlClientProvider>
     </html>
   );
 }
