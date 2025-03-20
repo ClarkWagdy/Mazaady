@@ -16,7 +16,7 @@ export default function Header() {
   // const t = useTranslations();
 
   const t = useTranslations("common");
-
+ const pathname = usePathname();
   return (
     <header className="overflow-hidden bg-white shadow-md p-1">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,7 +75,7 @@ export default function Header() {
                   key={index}
                   href={link.Path}
                   className={` font-bold hover:text-red-500 Navigationlink  ${
-                    usePathname().replace(currentLocale, "") === link.Path
+                    pathname.replace(currentLocale, "") === link.Path
                       ? " text-[#D20653] relative inline-block after:absolute after:-bottom-7 after:left-0 after:w-full after:h-3 after:rounded-lg after:bg-[#D20653]"
                       : "text-gray-700"
                   }`}
@@ -140,7 +140,7 @@ export default function Header() {
               <button className="    bg-gradient-to-r from-red-500 to-orange-400 text-white px-4 py-2 rounded-lg">
                 + Add New Product
               </button>
-              <Lanbutton />
+              <Lanbutton  className=""/>
             </div>
 
             {/* <h1>{t("Home")}</h1> */}

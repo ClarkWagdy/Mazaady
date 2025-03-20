@@ -1,4 +1,4 @@
-import { NextIntlClientProvider, Locale, hasLocale } from "next-intl";
+import { NextIntlClientProvider} from "next-intl";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import Header from "../../../components/Header/Header";
@@ -24,7 +24,7 @@ export default async function RootLayout({
   try {
     messages = (await import(`../../../public/locales/${locale}/common.json`))
       .default;
-  } catch (error) {
+  } catch (error:any) {
     notFound();
   }
 

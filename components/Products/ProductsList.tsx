@@ -9,6 +9,7 @@ export default function ProductsList() {
       {/* Tabs */}
       <div className="flex justify-center md:justify-start space-x-3 text-gray-600   pb-2">
         <span
+          onClick={() => setcurrent(category.Products)}
           className={`${
             current === category.Products
               ? "text-[#FF951D] bg-[#FFF5E9] border-[#FF951D] "
@@ -18,6 +19,7 @@ export default function ProductsList() {
           Products
         </span>
         <span
+          onClick={() => setcurrent(category.Articles)}
           className={`${
             current === category.Articles
               ? "text-[#FF951D] bg-[#FFF5E9] border-[#FF951D] "
@@ -27,6 +29,7 @@ export default function ProductsList() {
           Articles
         </span>
         <span
+            onClick={() => setcurrent(category.Reviews)}
           className={`${
             current === category.Reviews
               ? "text-[#FF951D] bg-[#FFF5E9] border-[#FF951D] "
