@@ -31,13 +31,11 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-         <NextIntlClientProvider locale={locale} messages={messages}>
-      <Header  />
-      <body className={"bg-[#F6F4F5]  "+  nunito.className }>
-     
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <body className={"bg-[#F6F4F5]  " + nunito.className}>
+          <Header />
           {children}
-
-      </body>
+        </body>
       </NextIntlClientProvider>
     </html>
   );

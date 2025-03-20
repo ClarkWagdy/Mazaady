@@ -19,13 +19,13 @@ export default   function Header( ) {
     const t = useTranslations("common");
   
   return (
-    <header className="bg-white shadow-md p-1">
+    <header className="overflow-hidden bg-white shadow-md p-1">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-3">
-          <div className="flex content-center items-center space-x-4">
+        <div className="flex justify-between   items-center py-1">
+          <div className="flex content-center items-center me-8">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden  rounded-md flex items-center justify-center"
+              className="md:hidden  rounded-md flex items-center justify-center me-4"
             >
               <motion.div
                 animate={isOpen ? "open" : "closed"}
@@ -69,55 +69,59 @@ export default   function Header( ) {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6">
-            {Links.map((link, index) => (
-              <Link
-                key={index}
-                href={link.Path}
-                className={`text-gray-700 hover:text-red-500  ${usePathname().replace(currentLocale,"") === link.Path ? "text-red-500" : ""}`}
-              >
-                {link.Title}
-              </Link>
-            ))}
-          </nav>
+          <div className="flex md:w-[100%]  items-center md:justify-between space-x-4">
+            <nav className="hidden md:flex   space-x-6">
+              {Links.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.Path}
+                  className={` font-bold hover:text-red-500 Navigationlink  ${
+                    usePathname().replace(currentLocale, "") === link.Path
+                      ? " text-[#D20653] relative inline-block after:absolute after:-bottom-7 after:left-0 after:w-full after:h-3 after:rounded-lg after:bg-[#D20653]"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {t(link.Title)}
+                </Link>
+              ))}
+            </nav>
+            {/* Icons & Buttons */}
+            <div className="flex items-center space-x-1 md:space-x-4">
+              <button className="p-2 text-gray-600 hover:text-black">
+                <Image
+                  src="/search-normal.svg"
+                  alt="search"
+                  width={24}
+                  height={24}
+                />
+              </button>
+              <span className="hidden md:block border-l-1 border-[#FFEAD2] h-[25px]"></span>
+              <button className="p-2 text-gray-600 hover:text-black">
+                <Image
+                  src="/notification.svg"
+                  alt="search"
+                  width={24}
+                  height={24}
+                />
+              </button>
+              <span className="hidden md:block border-l-1 border-[#FFEAD2] h-[25px]"></span>
+              <button className="rounded-full  ">
+                <Image
+                  src="/avat.jpg"
+                  alt="User"
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover w-[40px] h-[40px]"
+                />
+              </button>
+              <button className="hidden md:block  transition duration-700 bg-linear-to-r from-[#D20653] to-[#FF951D] hover:from-[#FF951D] hover:to-[#D20653] text-white px-4 py-2 rounded-lg">
+                + Add New Product
+              </button>
 
-          {/* Icons & Buttons */}
-          <div className="flex items-center space-x-4">
-            <button className="p-2 text-gray-600 hover:text-black">
-              <Image
-                src="/search-normal.svg"
-                alt="search"
-                width={24}
-                height={24}
-              />
-            </button>
-            <span className='border-l-1 border-[#FFEAD2] h-[25px]'></span>
-            <button className="p-2 text-gray-600 hover:text-black">
-              <Image
-                src="/notification.svg"
-                alt="search"
-                width={24}
-                height={24}
-              />
-            </button>
-            <span className='border-l-1 border-[#FFEAD2] h-[25px]'></span>
-            <button className="rounded-full border p-1">
-              <Image
-                src="/avatar.png"
-                alt="User"
-                width={30}
-                height={30}
-                className="rounded-full"
-              />
-            </button>
-            <button className="hidden md:block  bg-gradient-to-r from-red-500 to-orange-400 text-white px-4 py-2 rounded-lg">
-              + Add New Product
-            </button>
-
-            <Lanbutton className="hidden md:flex "/>
+              <Lanbutton className="hidden md:flex " />
+            </div>
           </div>
         </div>
-
         {/* Mobile Menu */}
 
         <motion.div
@@ -128,15 +132,17 @@ export default   function Header( ) {
           className="absolute w-full left-0 mt-2 w-48 bg-white shadow-lg overflow-hidden rounded-md"
         >
           <ul className="flex flex-col p-4 space-y-2">
-            
             {Links.map((link, index) => (
-              <Link key={index} href={ link.Path} className={`text-gray-700 `} >
+              <Link key={index} href={link.Path} className={`text-gray-700 `}>
                 {t(link.Title)}
               </Link>
             ))}
-
-
-        <Lanbutton />
+            <div className="flex justify-between mt-1 items-center">
+              <button className="    bg-gradient-to-r from-red-500 to-orange-400 text-white px-4 py-2 rounded-lg">
+                + Add New Product
+              </button>
+              <Lanbutton />
+            </div>
 
             {/* <h1>{t("Home")}</h1> */}
           </ul>
