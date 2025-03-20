@@ -24,7 +24,8 @@ export default async function RootLayout({
   try {
     messages = (await import(`../../../public/locales/${locale}/common.json`))
       .default;
-  } catch (error:any) {
+  } catch (error: unknown) {
+    console.error(error);
     notFound();
   }
 
