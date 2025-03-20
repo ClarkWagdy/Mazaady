@@ -1,6 +1,5 @@
 import { NextIntlClientProvider, Locale, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
 import "../globals.css";
 import Header from "../../../components/Header/Header";
 import { Nunito } from "next/font/google";
@@ -21,13 +20,13 @@ export default async function RootLayout({
   //   notFound();
   // }
 
- let messages;
- try {
-   messages = (await import(`../../../public/locales/${locale}/common.json`))
-     .default;
- } catch (error) {
-   notFound();
- } 
+  let messages;
+  try {
+    messages = (await import(`../../../public/locales/${locale}/common.json`))
+      .default;
+  } catch (error) {
+    notFound();
+  }
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>

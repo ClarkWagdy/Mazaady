@@ -1,23 +1,22 @@
-'use client';
-import Link from 'next/link';
-import React, { useState } from 'react'
- import { motion } from "motion/react";
+"use client";
+import Link from "next/link";
+import React, { useState } from "react";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-import { Links } from './NavLink';
-import { Locale, useTranslations } from 'next-intl';
-import { useChangeLanguage } from '@/i18n/ChangeLan';
-import Lanbutton from '../LanguageChange/Lanbutton';
+import { Links } from "./NavLink";
+import {  useTranslations } from "next-intl";
+import { useChangeLanguage } from "@/i18n/ChangeLan";
+import Lanbutton from "../LanguageChange/Lanbutton";
 // import { useTranslations } from 'next-intl';
-export default   function Header( ) {
-  const { changeLanguage, currentLocale } = useChangeLanguage();
+export default function Header() {
+  const {  currentLocale } = useChangeLanguage();
   const [isOpen, setIsOpen] = useState(false);
   // const t = useTranslations();
 
+  const t = useTranslations("common");
 
-    const t = useTranslations("common");
-  
   return (
     <header className="overflow-hidden bg-white shadow-md p-1">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
