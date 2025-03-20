@@ -42,7 +42,7 @@ export default function ProductsList() {
 
       {/* Product List */}
       <div className="mt-4">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-1">
           <h3 className="text-lg font-semibold">
             Products <small className="text-[#828282] font-normal">(12)</small>
           </h3>
