@@ -6,4 +6,18 @@
 .Navigationlink::after,.Navigationlink{
     transition: all 0.3s;
 }
- 
+ @keyframes fadeInUp {
+     from {
+         opacity: 0;
+         transform: translateY(20px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ .animate-fadeInUp::after {
+     animation: fadeInUp 0.5s ease-out ;
+ }

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-
+import "../../src/app/globals.css";
 import { Links } from "./NavLink";
 import {  useTranslations } from "next-intl";
 import { useChangeLanguage } from "@/i18n/ChangeLan";
@@ -75,9 +75,13 @@ export default function Header() {
                   key={index}
                   href={link.Path}
                   className={` font-bold hover:text-red-500 Navigationlink  ${
-                    pathname.replace(currentLocale, "") === link.Path
-                      ? " text-[#D20653] relative inline-block after:absolute after:-bottom-7 after:left-0 after:w-full after:h-3 after:rounded-lg after:bg-[#D20653]"
-                      : "text-gray-700"
+                    (
+                    (pathname.includes(link.Path.replace("/", "")) &&
+                      link.Path.replace("/", "") !== "") ||
+                    pathname.replace(`/${currentLocale}`, "") ===
+                      link.Path.replace("/", "")
+                      ? " text-[#D20653] relative inline-block after:absolute    animate-fadeInUp   after:-bottom-5 after:left-0 after:w-full after:h-3 after:rounded-lg after:bg-[#D20653]"
+                      : "text-gray-700")
                   }`}
                 >
                   {t(link.Title)}
@@ -140,7 +144,7 @@ export default function Header() {
               <button className="    bg-gradient-to-r from-red-500 to-orange-400 text-white px-4 py-2 rounded-lg">
                 + Add New Product
               </button>
-              <Lanbutton  className=""/>
+              <Lanbutton className="" />
             </div>
 
             {/* <h1>{t("Home")}</h1> */}
