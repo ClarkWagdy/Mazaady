@@ -4,8 +4,7 @@ import {
   categorieT,
   optionsT,
   OptionT,
-  propertiesValuesT,
-  resultT,
+  propertiesValuesT, 
   subcategorieT,
 } from "../../Types/categorie";
 import { useChangeLanguage } from "@/i18n/ChangeLan";
@@ -61,7 +60,7 @@ interface Props {
   errors: any;
   subcategories: OptionT[] | undefined;
   propertiesidx: any;
-  setpropertiesidx:Function;
+  setpropertiesidx: Function;
 }
 export default function Form(props: Props) {
 

@@ -49,24 +49,7 @@ export default function Category() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    if (!data.MainCategory) {
-      setError("MainCategory", {
-        message: "Please Select Main Category",
-      });
-
-      return;
-    }
-    if (!data.Subcategory) {
-      setError("Subcategory", {
-        message: "Please Select Subcategory",
-      });
-      return;
-    }
-    setResultData(data);
-    setViewResult(true);
-  };
-
+ 
   return (
     <main className="min-h-[calc(100vh-110px)]  p-5 flex items-center justify-center">
       <div className="bg-white max-w-5xl min-h-[600px] items-center w-full grid grid-cols-1 md:grid-cols-2 shadow-lg rounded-lg overflow-hidden">
