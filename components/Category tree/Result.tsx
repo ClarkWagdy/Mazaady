@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
  import { motion } from "framer-motion";
 import Image from 'next/image';
-import { resultT } from '../../Types/categorie';
+import { optionsT, OptionT, resultT } from '../../Types/categorie';
+import { FieldValues, UseFormReset } from 'react-hook-form';
 
 interface Props {
-  setViewResult: Function;
-  reset: Function;
-  setResultData: Function;
+  setViewResult: Dispatch<SetStateAction<boolean>>;
+  reset: UseFormReset<FieldValues>;
+  setResultData: Dispatch<SetStateAction<resultT | undefined>>;
 
-  setsubcategories: Function;
-  setsubcategoryproperties: Function;
+  setsubcategories: Dispatch<SetStateAction<OptionT[] | undefined>>;
+  setsubcategoryproperties: Dispatch<SetStateAction<optionsT[] | undefined>>;
 
-  setpropertiesidx: Function;
-  ResultData: resultT|undefined;
+  setpropertiesidx: Dispatch<SetStateAction<number | undefined>>;
+  ResultData: resultT | undefined;
 }
 export default function Result(props:Props) {
   return (

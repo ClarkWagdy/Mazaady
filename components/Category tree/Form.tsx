@@ -11,7 +11,7 @@ import {
 import { useChangeLanguage } from "@/i18n/ChangeLan";
 import axios from "axios";
 import { Control, Controller, FieldErrors, FieldValues, UseFormClearErrors, UseFormGetValues, UseFormSetError, UseFormSetValue } from "react-hook-form";
-import Select  from "react-select";
+import Select, { SingleValue }  from "react-select";
 
 interface Props {
   setError: UseFormSetError<FieldValues>;
@@ -80,7 +80,7 @@ export default function Form(props: Props) {
 const [propertiesValues, setpropertiesValues] = useState<
   propertiesValuesT[] | undefined
 >(undefined);
-           const onSubmit = (data: any):void => {
+           const onSubmit = (data: FieldValues): void => {
              if (!data.MainCategory) {
                props.setError("MainCategory", {
                  message: "Please Select Main Category",
@@ -89,12 +89,12 @@ const [propertiesValues, setpropertiesValues] = useState<
                return;
              }
              if (!data.Subcategory) {
-              props.setError("Subcategory", {
+               props.setError("Subcategory", {
                  message: "Please Select Subcategory",
                });
                return;
              }
-             props.setResultData(data);
+             props.setResultData(data as unknown as resultT);
              props.setViewResult(true);
            };
 
@@ -226,23 +226,28 @@ const [propertiesValues, setpropertiesValues] = useState<
            }
 
            function HandlepropertiesChange(
-             e: any,
+             e: SingleValue<OptionT>,
              index: number,
              ele: optionsT,
              level: number,
            ) {
              if (propertiesValues) {
-               let data = [...propertiesValues];
+               const data = [...propertiesValues];
                data[index] = {
                  id: index,
                  parent_id: ele.id,
                  parent_name: ele.name,
-                 property_id: e.value,
-                 property_name: e.label,
-                 child_options: e.options,
+                 property_id: e?.value ?? 0,
+                 property_name: e?.label ?? "",
+                 child_options: e?.properties?.map((prop) => ({
+                   ...prop,
+                   id: prop.value,
+                   name: prop.label,
+                   type: "custom", // or any default type you want to assign
+                 })),
 
-                 child_name: level === 2 ? e.label : "",
-                 child_id: level === 2 ? e.value : "",
+                 child_name: level === 2 && e ? e.label : "",
+                 child_id: level === 2 && e ? Number(e.value) : undefined,
                  child_value: "",
                  value: "",
                };
@@ -393,7 +398,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                             ? "No properties available"
                             : "Select properties"
                         }
-                        onChange={(e) => {
+                        onChange={(e: SingleValue<OptionT>): void => {
                           if (e?.value) {
                             getproperties(e?.value, index, 2);
 
