@@ -5,6 +5,7 @@ import {
   optionsT,
   OptionT,
   propertiesValuesT, 
+  resultT, 
   subcategorieT,
 } from "../../Types/categorie";
 import { useChangeLanguage } from "@/i18n/ChangeLan";
@@ -15,14 +16,14 @@ import Select  from "react-select";
 interface Props {
   setError: UseFormSetError<FieldValues>;
   setViewResult: (value: boolean) => void;
-  setResultData: (data: any) => void;
+  setResultData: (data: resultT) => void;
   reset: () => void;
   setValue: UseFormSetValue<FieldValues>;
   clearErrors: UseFormClearErrors<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
   handleSubmit: (
     callback: (data: FieldValues) => void,
-  ) => (event?: any) => void;
+  ) => (event?: React.BaseSyntheticEvent) => void;
   setsubcategories: (categories: OptionT[] | undefined) => void;
   setsubcategoryproperties: (properties: optionsT[] | undefined) => void;
   subcategoryproperties?: optionsT[];
@@ -59,12 +60,12 @@ export default function Form(props: Props) {
      color: state.isSelected ? "white" : "black",
      padding: 10,
    }),
-   menu: (provided: any) => ({
+   menu: (provided: Record<string, unknown>) => ({
      ...provided,
 
      zIndex: 10,
    }),
-   menuList: (provided: any) => ({
+   menuList: (provided: Record<string, unknown>) => ({
      ...provided,
      maxHeight: 200, // Set menu height
      overflowY: "auto", // Enable scrolling if needed
@@ -204,12 +205,12 @@ const [propertiesValues, setpropertiesValues] = useState<
                        label: "Other",
                      },
                    ];
-                   let data = [...props.subcategoryproperties];
+                   const data = [...props.subcategoryproperties];
                    console.log(level, data[index].properties);
                    if (level === 1) {
                      data[index].properties = formattedOptions;
                    } else if (level === 2 && data[index].properties) {
-                     let indx = data[index].properties.findIndex(
+                     const indx = data[index].properties.findIndex(
                        (ele) => ele.value === id,
                      );
                      data[index].properties[indx].properties = [
@@ -245,15 +246,15 @@ const [propertiesValues, setpropertiesValues] = useState<
                  child_value: "",
                  value: "",
                };
-               setpropertiesValues((prev) => data);
+               setpropertiesValues(() => data);
              }
            }
            function HandlepropertiesValueChange(
-             e: any,
+             e: React.ChangeEvent<HTMLInputElement>,
              index: number,
              level: number,
            ) {
-             let data = propertiesValues ? [...propertiesValues] : [];
+             const data = propertiesValues ? [...propertiesValues] : [];
 
              if (e) {
                if (level === 1) {
@@ -263,7 +264,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                }
 
                if (props.getValues("Subcategory").Categoryoptions) {
-                 let data = props.getValues("Subcategory");
+                 const data = props.getValues("Subcategory");
                  data.Categoryoptions[index].dataValue = {
                    label: e.target.value,
                    value: 0,
@@ -273,7 +274,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                }
              }
 
-             setpropertiesValues((prev) => data);
+             setpropertiesValues(() => data);
            }
   return (
     <motion.div
@@ -292,7 +293,7 @@ const [propertiesValues, setpropertiesValues] = useState<
           <Controller
             name="MainCategory"
             control={props.control}
-            render={({ field }) => (
+            render={() => (
               <Select
                 className="shadow-sm "
                 isClearable
@@ -335,7 +336,7 @@ const [propertiesValues, setpropertiesValues] = useState<
             name="Subcategory"
             control={props.control}
             defaultValue={undefined}
-            render={({ field }) => (
+            render={() => (
               <Select
                 className="shadow-sm "
                 isClearable
@@ -379,7 +380,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                   <Controller
                     name={ele.name as string}
                     control={props.control}
-                    render={({ field }) => (
+                    render={() => (
                       <Select
                         className="shadow-sm "
                         onFocus={() => getproperties(ele.id, index, 1)}
@@ -396,7 +397,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                           if (e?.value) {
                             getproperties(e?.value, index, 2);
 
-                            let indx: number | undefined = props
+                            const indx: number | undefined = props
                               .getValues("Subcategory")
                               .Categoryoptions?.findIndex(
                                 (item: optionsT) => item.id === ele.id,
@@ -406,7 +407,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                               indx &&
                               props.getValues("Subcategory").Categoryoptions
                             ) {
-                              let data = props.getValues("Subcategory");
+                              const data = props.getValues("Subcategory");
                               data.Categoryoptions[indx].dataValue = e;
 
                               props.setValue("Subcategory", data);
@@ -436,7 +437,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                       <Controller
                         name="subcategorypropertiesChild"
                         control={props.control}
-                        render={({ field }) => (
+                        render={() => (
                           <Select
                             className="shadow-sm "
                             // onFocus={() =>
