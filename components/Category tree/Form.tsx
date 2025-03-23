@@ -9,8 +9,28 @@ import {
 } from "../../Types/categorie";
 import { useChangeLanguage } from "@/i18n/ChangeLan";
 import axios from "axios";
-import { Controller } from "react-hook-form";
+import { Controller, UseFormClearErrors, UseFormGetValues, UseFormSetError, UseFormSetValue } from "react-hook-form";
 import Select  from "react-select";
+
+interface Props {
+  setError: UseFormSetError<any>;
+  setViewResult: (value: boolean) => void;
+  setResultData: (data: any) => void;
+  reset: () => void;
+  setValue: UseFormSetValue<any>;
+  clearErrors: UseFormClearErrors<any>;
+  getValues: UseFormGetValues<any>;
+  handleSubmit: (callback: (data: any) => void) => (event?: any) => void;
+  setsubcategories: (categories: OptionT[] | undefined) => void;
+  setsubcategoryproperties: (properties: optionsT[] | undefined) => void;
+  subcategoryproperties?: optionsT[];
+  control: any;
+  errors: Record<string, any>;
+  subcategories?: OptionT[];
+  propertiesidx?: number;
+  setpropertiesidx: (index: number) => void;
+}
+export default function Form(props: Props) {
  const customStyles = {
    control: (provided: any, state: any) => ({
      ...provided,
@@ -42,26 +62,6 @@ import Select  from "react-select";
      overflowY: "auto", // Enable scrolling if needed
    }),
  };
-interface Props {
-  setError: Function;
-  setViewResult: Function;
-  setResultData: Function;
-  reset: Function;
-  setValue: Function;
-  clearErrors: Function;
-  getValues: Function;
-  handleSubmit: Function;
-  setsubcategories: Function;
-  setsubcategoryproperties: Function;
-  subcategoryproperties: optionsT[] | undefined;
-  control: any;
-  errors: any;
-  subcategories: OptionT[] | undefined;
-  propertiesidx: any;
-  setpropertiesidx: Function;
-}
-export default function Form(props: Props) {
-
              const {  currentLocale } = useChangeLanguage();
             
             
@@ -209,7 +209,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                      ];
                    }
 
-                   props.setsubcategoryproperties((prev:unknown) => data);
+                   props.setsubcategoryproperties(data);
 
                    return formattedOptions;
                  }
@@ -407,7 +407,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                             props.setpropertiesidx(
                               ele.properties?.findIndex(
                                 (item) => item.value === e?.value,
-                              ),
+                              ) ?? -1,
                             );
                           }
                           HandlepropertiesChange(e, index, ele, 2);
@@ -418,10 +418,10 @@ const [propertiesValues, setpropertiesValues] = useState<
                   {ele.properties &&
                   props.propertiesidx &&
                   ele.properties[props.propertiesidx]?.properties &&
-                  [(ele.properties[props.propertiesidx].properties !==
-                    undefined
+                  [
+                    ele.properties[props.propertiesidx].properties !== undefined
                       ? ele.properties[props.propertiesidx].properties
-                      : []),
+                      : [],
                   ].length > 1 ? (
                     <div className="my-4 ps-5">
                       <label className="block text-gray-700">{ele.name}</label>
@@ -484,9 +484,11 @@ const [propertiesValues, setpropertiesValues] = useState<
                   ) : (
                     ""
                   )}
-                  {props.errors[ele.name as keyof FormData]?.message && (
+                  {props.errors[ele.name as keyof typeof props.errors]
+                    ?.message && (
                     <p className="text-red-500 text-sm mt-1">
-                      {props.errors[ele.name as keyof FormData]?.message + ""}
+                      {props.errors[ele.name as keyof typeof props.errors]
+                        ?.message + ""}
                     </p>
                   )}
                 </div>
