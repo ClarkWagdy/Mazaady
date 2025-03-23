@@ -9,30 +9,35 @@ import {
 } from "../../Types/categorie";
 import { useChangeLanguage } from "@/i18n/ChangeLan";
 import axios from "axios";
-import { Controller, UseFormClearErrors, UseFormGetValues, UseFormSetError, UseFormSetValue } from "react-hook-form";
+import { Control, Controller, FieldErrors, FieldValues, UseFormClearErrors, UseFormGetValues, UseFormSetError, UseFormSetValue } from "react-hook-form";
 import Select  from "react-select";
 
 interface Props {
-  setError: UseFormSetError<any>;
+  setError: UseFormSetError<FieldValues>;
   setViewResult: (value: boolean) => void;
   setResultData: (data: any) => void;
   reset: () => void;
-  setValue: UseFormSetValue<any>;
-  clearErrors: UseFormClearErrors<any>;
-  getValues: UseFormGetValues<any>;
-  handleSubmit: (callback: (data: any) => void) => (event?: any) => void;
+  setValue: UseFormSetValue<FieldValues>;
+  clearErrors: UseFormClearErrors<FieldValues>;
+  getValues: UseFormGetValues<FieldValues>;
+  handleSubmit: (
+    callback: (data: FieldValues) => void,
+  ) => (event?: any) => void;
   setsubcategories: (categories: OptionT[] | undefined) => void;
   setsubcategoryproperties: (properties: optionsT[] | undefined) => void;
   subcategoryproperties?: optionsT[];
-  control: any;
-  errors: Record<string, any>;
+  control: Control<FieldValues>;
+  errors: FieldErrors<FieldValues>;
   subcategories?: OptionT[];
   propertiesidx?: number;
   setpropertiesidx: (index: number) => void;
 }
 export default function Form(props: Props) {
  const customStyles = {
-   control: (provided: any, state: any) => ({
+   control: (
+     provided: Record<string, unknown>,
+     state: { isFocused: boolean },
+   ) => ({
      ...provided,
      backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
      borderColor: state.isFocused ? "#FF951D" : "#ccc",
@@ -41,7 +46,10 @@ export default function Form(props: Props) {
        borderColor: "#FF951D",
      },
    }),
-   option: (provided: any, state: any) => ({
+   option: (
+     provided: Record<string, unknown>,
+     state: { isSelected: boolean; isFocused: boolean },
+   ) => ({
      ...provided,
      backgroundColor: state.isSelected
        ? "#FF951D"
@@ -71,7 +79,7 @@ export default function Form(props: Props) {
 const [propertiesValues, setpropertiesValues] = useState<
   propertiesValuesT[] | undefined
 >(undefined);
-           const onSubmit = (data: any) => {
+           const onSubmit = (data: any):void => {
              if (!data.MainCategory) {
                props.setError("MainCategory", {
                  message: "Please Select Main Category",
@@ -117,7 +125,7 @@ const [propertiesValues, setpropertiesValues] = useState<
                });
            }, []);
 
-           function HandleCategorySelected(e: OptionT | null) {
+           function HandleCategorySelected(e: OptionT | null):void {
              props.reset();
              props.setValue("MainCategory", e);
              props.setValue("Subcategory", null);
