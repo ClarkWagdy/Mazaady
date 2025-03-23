@@ -65,10 +65,10 @@ export default function Form(props: Props) {
 
      zIndex: 10,
    }),
-   menuList: (provided: Record<string, unknown>) => ({
+   menuList: (provided : Record<string, unknown>) => ({
      ...provided,
      maxHeight: 200, // Set menu height
-     overflowY: "auto", // Enable scrolling if needed
+     overflowY: "auto" as const, // Enable scrolling if needed
    }),
  };
              const {  currentLocale } = useChangeLanguage();
